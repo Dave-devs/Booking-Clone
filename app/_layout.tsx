@@ -3,9 +3,10 @@ import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { ModalPortal } from 'react-native-modals';
 
 export { ErrorBoundary } from "expo-router";
-export const unstable_settings = { initialRouteName: "(auth)" };
+export const unstable_settings = { initialRouteName: "(tabs)" };
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -30,6 +31,7 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <RootLayoutNav />
+        <ModalPortal />
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
@@ -37,9 +39,12 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <Stack>
-      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    <Stack screenOptions={{
+      headerShown: false
+    }}>
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="(auth)" />
+      <Stack.Screen name="(screens/place-search)" />
     </Stack>
   );
 }
