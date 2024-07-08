@@ -4,6 +4,7 @@ import { useFonts } from "expo-font";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ModalPortal } from 'react-native-modals';
+import { DateProvider } from "@/context/DateContext";
 
 export { ErrorBoundary } from "expo-router";
 export const unstable_settings = { initialRouteName: "(tabs)" };
@@ -30,8 +31,10 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <RootLayoutNav />
-        <ModalPortal />
+        <DateProvider>
+          <RootLayoutNav />
+          <ModalPortal />
+        </DateProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
@@ -44,7 +47,8 @@ function RootLayoutNav() {
     }}>
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="(auth)" />
-      <Stack.Screen name="(screens/place-search)" />
+      <Stack.Screen name="screens/place-search" />
+      <Stack.Screen name="screens/date-screen" />
     </Stack>
   );
 }

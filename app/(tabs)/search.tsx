@@ -6,11 +6,11 @@ import {
   Pressable,
   Switch,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { defaultStyles } from "@/constants/Styles";
 import Header from "@/components/Header";
 import Colors from "@/constants/Colors";
-import { AntDesign, Octicons } from "@expo/vector-icons";
+import { AntDesign, Octicons, Feather } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   BottomModal,
@@ -21,12 +21,14 @@ import {
   SlideAnimation,
 } from "react-native-modals";
 import GuestItem from "@/components/GuestItem";
+import { useDateContext } from "@/context/DateContext";
 
 export default function SearchScreen() {
   const router = useRouter();
-  const [modalVisible, setModalVisible] = useState(false);
+  const [guestModalVisible, setGuestModalVisible] = useState(false);
   const { selectedPlace } = useLocalSearchParams();
-  const [address, setAddress] = useState('United States (U.S.A)');
+  const [address, setAddress] = useState("United States (U.S.A)");
+  const { selectedDates } = useDateContext();
   const [room, setRoom] = useState(1);
   const [adult, setAdult] = useState(1);
   const [children, setChildren] = useState(1);
@@ -47,10 +49,10 @@ export default function SearchScreen() {
         <ScrollView style={{ flex: 1 }}>
           {/* Booking Card */}
           <View style={styles.bookingCard}>
-            {/* State TextInput */}
+            {/* Addres TextInput */}
             <Pressable
               style={styles.textinput}
-              onPress={() => router.push("/screens/place-search")}
+              onPress={() => router.push("screens/place-search")}
             >
               <AntDesign name="search1" size={24} color="black" />
               <Text
@@ -64,8 +66,12 @@ export default function SearchScreen() {
                 {address}
               </Text>
             </Pressable>
+
             {/* Date TextInput */}
-            <Pressable style={styles.textinput}>
+            <Pressable
+              style={styles.textinput}
+              onPress={() => router.push("screens/date-screen")}
+            >
               <AntDesign name="calendar" size={24} color="black" />
               <Text
                 style={{
@@ -75,13 +81,16 @@ export default function SearchScreen() {
                   flex: 1,
                 }}
               >
-                Mon, Jul 15 - Fri, Jul 26
+                {selectedDates.startDate && selectedDates.endDate
+                  ? `${selectedDates.startDate} - ${selectedDates.endDate}`
+                  : "Select Dates"}
               </Text>
             </Pressable>
+
             {/* Room TextInput */}
             <Pressable
               style={styles.textinput}
-              onPress={() => setModalVisible(!modalVisible)}
+              onPress={() => setGuestModalVisible(!guestModalVisible)}
             >
               <Octicons name="person" size={24} color="black" />
               <Text
@@ -122,9 +131,10 @@ export default function SearchScreen() {
         </ScrollView>
       </ScrollView>
 
+      {/* Guset Bottom Modal */}
       <BottomModal
-        visible={modalVisible}
-        swipeThreshold={500}
+        visible={guestModalVisible}
+        swipeThreshold={200}
         swipeDirection={["up", "down"]}
         footer={
           <ModalFooter>
@@ -132,7 +142,7 @@ export default function SearchScreen() {
               text="Apply"
               textStyle={styles.modalText}
               style={styles.modal}
-              onPress={() => setModalVisible(!modalVisible)}
+              onPress={() => setGuestModalVisible(!guestModalVisible)}
             />
           </ModalFooter>
         }
@@ -154,7 +164,7 @@ export default function SearchScreen() {
         }
         // onBackdropPress={() => setModalVisible(!modalVisible)}
         // onHardwareBackPress={() => setModalVisible(!modalVisible)}
-        onTouchOutside={() => setModalVisible(!modalVisible)}
+        onTouchOutside={() => setGuestModalVisible(!guestModalVisible)}
       >
         <ModalContent>
           {/* Rooms Button */}
