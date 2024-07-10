@@ -5,12 +5,13 @@ import {
   ScrollView,
   Pressable,
   Switch,
+  Image,
 } from "react-native";
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { defaultStyles } from "@/constants/Styles";
 import Header from "@/components/Header";
 import Colors from "@/constants/Colors";
-import { AntDesign, Octicons, Feather } from "@expo/vector-icons";
+import { AntDesign, Octicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   BottomModal,
@@ -22,9 +23,12 @@ import {
 } from "react-native-modals";
 import GuestItem from "@/components/GuestItem";
 import { useDateContext } from "@/context/DateContext";
+import DiscountItem from "@/components/DiscountItem";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function SearchScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [guestModalVisible, setGuestModalVisible] = useState(false);
   const { selectedPlace } = useLocalSearchParams();
   const [address, setAddress] = useState("United States (U.S.A)");
@@ -118,13 +122,28 @@ export default function SearchScreen() {
             </Pressable>
           </View>
 
-          {/*  */}
-          <View style={{ marginLeft: 15, marginTop: 35 }}>
-            <Text
-              style={{ fontFamily: "montB", fontSize: 15, color: Colors.black }}
-            >
+          {/* Travel More Header Text */}
+          <View style={styles.discountHeaderContainer}>
+            <Text style={styles.discountHeaderText}>
               Travel more, spend less
             </Text>
+          </View>
+          <DiscountItem />
+
+          {/* More For You Pic */}
+          <View style={styles.discountHeaderContainer}>
+            <Text style={styles.discountHeaderText}>More for you</Text>
+          </View>
+          <View style={styles.imageContainer}>
+            <Image
+              style={styles.image}
+              source={{
+                uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuHg-8YR2cx29gd2vGu9z2ZiXxk422zguuCg&s",
+              }}
+            />
+            <Pressable>
+              <Text style={styles.imageText}>Travel articles</Text>
+            </Pressable>
           </View>
 
           <ScrollView></ScrollView>
@@ -242,5 +261,33 @@ const styles = StyleSheet.create({
     fontFamily: "montM",
     fontSize: 13,
     color: Colors.white,
+  },
+  discountHeaderContainer: {
+    marginLeft: 15,
+    marginTop: 20,
+  },
+  discountHeaderText: {
+    fontFamily: "montB",
+    fontSize: 15,
+    color: Colors.black,
+  },
+  imageContainer: {
+    marginHorizontal: 15,
+    marginTop: 15,
+    marginBottom: 30,
+  },
+  image: {
+    height: 250,
+    borderRadius: 8,
+    width: "100%",
+    resizeMode: "cover",
+  },
+  imageText: {
+    position: "absolute",
+    bottom: 10,
+    left: 10,
+    color: "white",
+    fontFamily: "montSB",
+    fontSize: 15,
   },
 });
