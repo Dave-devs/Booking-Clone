@@ -14,26 +14,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/Colors";
 import * as Location from "expo-location";
 import { AntDesign, Feather } from "@expo/vector-icons";
+import SearchResult from "@/components/SearchResult";
+import { Destination } from "@/utils/data/Destinations";
 
 const PlaceSearch = () => {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const [searchInput, setSearchInput] = useState("");
-
-  // const requestLocationPermission = async () => {
-  //   let { status } = await Location.requestForegroundPermissionsAsync();
-  //   if (status !== "granted") {
-  //     console.log("Permission to access location was denied");
-  //     return;
-  //   }
-
-  //   let location = await Location.getCurrentPositionAsync({});
-  //   console.log(location);
-  // };
-
-  // useEffect(() => {
-  //   requestLocationPermission();
-  // }, []);
 
   return (
     <KeyboardAvoidingView
@@ -50,11 +37,60 @@ const PlaceSearch = () => {
           style={styles.textinput}
           numberOfLines={1}
         />
-        <Pressable>
+        {/* <Pressable>
           <Feather name="search" size={20} color={Colors.black} />
-        </Pressable>
+        </Pressable> */}
+      </View>
+      {/* Search Result */}
+      <SearchResult
+        data={Destination}
+        query={searchInput}
+        setQuery={setSearchInput}
+      />
+    </KeyboardAvoidingView>
+  );
+};
 
-        {/* <GooglePlacesAutocomplete
+export default PlaceSearch;
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 10,
+    borderWidth: 3,
+    borderColor: Colors.yellow,
+    borderRadius: 4,
+    marginHorizontal: 15,
+    marginTop: 10,
+    paddingHorizontal: 10,
+  },
+  textinput: {
+    flex: 1,
+    height: 40,
+    fontFamily: "montM",
+    fontSize: 13,
+  },
+});
+
+// const requestLocationPermission = async () => {
+//   let { status } = await Location.requestForegroundPermissionsAsync();
+//   if (status !== "granted") {
+//     console.log("Permission to access location was denied");
+//     return;
+//   }
+
+//   let location = await Location.getCurrentPositionAsync({});
+//   console.log(location);
+// };
+
+// useEffect(() => {
+//   requestLocationPermission();
+// }, []);
+
+{
+  /* <GooglePlacesAutocomplete
           placeholder="Enter destination"
           minLength={2}
           listViewDisplayed="auto"
@@ -83,31 +119,5 @@ const PlaceSearch = () => {
           }}
           currentLocation={true}
           currentLocationLabel="Current location"
-        /> */}
-      </View>
-    </KeyboardAvoidingView>
-  );
-};
-
-export default PlaceSearch;
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 10,
-    borderWidth: 3,
-    borderColor: Colors.yellow,
-    borderRadius: 4,
-    marginHorizontal: 15,
-    marginTop: 10,
-    paddingHorizontal: 10,
-  },
-  textinput: {
-    flex: 1,
-    height: 40,
-    fontFamily: 'montM',
-    fontSize: 13,
-  },
-});
+        /> */
+}

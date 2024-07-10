@@ -6,6 +6,7 @@ import {
   Pressable,
   Switch,
   Image,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { defaultStyles } from "@/constants/Styles";
@@ -30,19 +31,46 @@ export default function SearchScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const [guestModalVisible, setGuestModalVisible] = useState(false);
-  const { selectedPlace } = useLocalSearchParams();
-  const [address, setAddress] = useState("United States (U.S.A)");
   const { selectedDates } = useDateContext();
-  const [room, setRoom] = useState(1);
-  const [adult, setAdult] = useState(1);
-  const [children, setChildren] = useState(1);
+  const [room, setRoom] = useState(0);
+  const [adult, setAdult] = useState(0);
+  const [children, setChildren] = useState(0);
   const [pets, setPets] = useState(false);
 
-  useEffect(() => {
-    if (selectedPlace) {
-      setAddress(selectedPlace as string);
+  const params = useLocalSearchParams();
+  
+  const searchClick = () => {
+    if(!params.query || !selectedDates) {
+      Alert.alert(
+        "Invalid Details",
+        "Please enter all the details",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ],
+        { cancelable: false }
+      );
+      return;
     }
-  }, [selectedPlace]);
+
+    if (params.query && selectedDates) {
+      router.push({
+        pathname: '(screens)/bookings',
+        params: { 
+          destination: params.query,
+          selectedDates: JSON.stringify(selectedDates),
+          room: room,
+          adult: adult,
+          children: children,
+          pets: pets.toString()
+        }
+      })
+    }
+  }
 
   return (
     <>
@@ -53,72 +81,43 @@ export default function SearchScreen() {
         <ScrollView style={{ flex: 1 }}>
           {/* Booking Card */}
           <View style={styles.bookingCard}>
-            {/* Addres TextInput */}
+            {/* Address Text Componenet */}
             <Pressable
               style={styles.textinput}
               onPress={() => router.push("screens/place-search")}
             >
               <AntDesign name="search1" size={24} color="black" />
-              <Text
-                style={{
-                  fontFamily: "mont",
-                  fontSize: 13,
-                  color: Colors.black,
-                  flex: 1,
-                }}
-              >
-                {address}
+              <Text style={styles.boxText}>
+                {params.query ? params.query : "Enter your destination"}
               </Text>
             </Pressable>
 
-            {/* Date TextInput */}
+            {/* Date Text Componenet */}
             <Pressable
               style={styles.textinput}
               onPress={() => router.push("screens/date-screen")}
             >
               <AntDesign name="calendar" size={24} color="black" />
-              <Text
-                style={{
-                  fontFamily: "mont",
-                  fontSize: 13,
-                  color: Colors.black,
-                  flex: 1,
-                }}
-              >
+              <Text style={styles.boxText}>
                 {selectedDates.startDate && selectedDates.endDate
                   ? `${selectedDates.startDate} - ${selectedDates.endDate}`
                   : "Select Dates"}
               </Text>
             </Pressable>
 
-            {/* Room TextInput */}
+            {/* Room Text Componenet */}
             <Pressable
               style={styles.textinput}
               onPress={() => setGuestModalVisible(!guestModalVisible)}
             >
               <Octicons name="person" size={24} color="black" />
-              <Text
-                style={{
-                  fontFamily: "mont",
-                  fontSize: 13,
-                  color: Colors.black,
-                  flex: 1,
-                }}
-              >
+              <Text style={styles.boxText}>
                 {`${room} room, ${adult} adult, ${children} children`}
               </Text>
             </Pressable>
             {/* Button */}
-            <Pressable style={styles.btn}>
-              <Text
-                style={{
-                  fontFamily: "montM",
-                  fontSize: 14,
-                  color: Colors.white,
-                }}
-              >
-                Search
-              </Text>
+            <Pressable style={styles.btn} onPress={searchClick}>
+              <Text style={styles.btnText}>Search</Text>
             </Pressable>
           </View>
 
@@ -190,20 +189,20 @@ export default function SearchScreen() {
           <GuestItem
             title="Rooms"
             count={room}
-            increase={() => setRoom(room + 1)}
-            decrease={() => setRoom(room - 1)}
+            increase={() => setRoom(Math.max(1, room + 1))}
+            decrease={() => setRoom(Math.max(1, room - 1))}
           />
           <GuestItem
             title="Adults"
             count={adult}
-            increase={() => setAdult(adult + 1)}
-            decrease={() => setAdult(adult - 1)}
+            increase={() => setAdult(Math.max(1, adult + 1))}
+            decrease={() => setAdult(Math.max(1, adult - 1))}
           />
           <GuestItem
             title="Children"
             count={children}
-            increase={() => setChildren(children + 1)}
-            decrease={() => setChildren(children - 1)}
+            increase={() => setChildren(Math.max(1, children + 1))}
+            decrease={() => setChildren(Math.max(1, children - 1))}
           />
           <View
             style={{
@@ -234,6 +233,17 @@ const styles = StyleSheet.create({
     margin: 20,
     borderRadius: 5,
   },
+  boxText: {
+    fontFamily: "mont",
+    fontSize: 13,
+    color: Colors.black,
+    flex: 1,
+  },
+  btnText: {
+    fontFamily: "montM",
+    fontSize: 14,
+    color: Colors.white,
+  },
   textinput: {
     flexDirection: "row",
     alignItems: "center",
@@ -244,6 +254,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     backgroundColor: Colors.button,
+    borderRadius: 1,
     height: 55,
     alignItems: "center",
     justifyContent: "center",
