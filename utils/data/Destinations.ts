@@ -11,7 +11,8 @@ export const Destination = [
         name: "FabHotel Zeke",
         image:
           "https://cf.bstatic.com/xdata/images/hotel/max1280x900/433845616.jpg?k=87bc315f35830189d9a1c935c3e167e648543c27f39ee4cafc5cf73ee24393b9&o=&hp=1",
-        rating: 3.6,
+        rating: 7.8,
+        ratingCount: 712712,
         address:
           "346, Hennur Main Road, Post, Kalyan Nagar, 560043 Bangalore, India ",
         oldPrice: 4600,
@@ -101,7 +102,8 @@ export const Destination = [
         image:
           "https://cf.bstatic.com/xdata/images/hotel/max1280x900/223496641.jpg?k=070266558a879c2926e5511569c4828a007a3e1057b63ccfa30120c859341d1d&o=&hp=1",
         name: "Regenta Inn Indiranagar Bangalore",
-        rating: 4,
+        rating: 8.1,
+        ratingCount: 82372,
         address:
           " 648/B, Regenta Inn Indiranagar, Binnamangala 1st stage Indiranagar, 560038 Bangalore, India",
         oldPrice: 4201,
@@ -190,7 +192,8 @@ export const Destination = [
       {
         id: "12",
         name: "Bloom Hotel - Bengaluru Airport",
-        rating: 4.2,
+        rating: 8.3,
+        ratingCount: 33723,
         address:
           "Down Town Park, Sadahalli Gate, Kempegowda Int'l Airport Rd, 562157 Bangalore, India",
         oldPrice: 3800,

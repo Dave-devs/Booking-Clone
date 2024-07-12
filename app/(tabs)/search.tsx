@@ -59,7 +59,7 @@ export default function SearchScreen() {
 
     if (params.query && selectedDates) {
       router.push({
-        pathname: '(screens)/bookings',
+        pathname: 'screens/destinations',
         params: { 
           destination: params.query,
           selectedDates: JSON.stringify(selectedDates),
