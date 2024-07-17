@@ -1,27 +1,71 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Pressable,
-} from "react-native";
-import React from "react";
+import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
+import React, { useState } from "react";
 import { Destination } from "@/utils/data/Destinations";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  FontAwesome,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
 import DestinationItem from "@/components/DestinationItem";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import {
+  BottomModal,
+  ModalButton,
+  ModalContent,
+  ModalFooter,
+  ModalTitle,
+  SlideAnimation,
+} from "react-native-modals";
+import { Sort } from "@/utils/data/Sort";
+import { defaultStyles } from "@/constants/Styles";
 
 export default function Destinations() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const parsedDates = JSON.parse(params.selectedDates as string);
+  const [sortModalVisible, setSortModalVisible] = useState(false);
+  const [selectedfilter, setSelectedFilter] = useState<string>();
+  const [sortedData, setSortedData] = useState(Destination);
+
+  const destinations = Destination.filter(
+    (item) => item.place === params.destination
+  );
+  const compareH2L = (a: any, b: any) => {
+    if (a.newPrice > b.newPrice) return -1;
+    if (a.newPrice < b.newPrice) return 1;
+    return 0;
+  };
+  const compareL2H = (a: any, b: any) => {
+    if (a.newPrice < b.newPrice) return -1;
+    if (a.newPrice > b.newPrice) return 1;
+    return 0;
+  };
+  const applySort = (filter: string) => {
+    setSortModalVisible(!sortModalVisible); // false
+    switch (filter) {
+      case "Price (high to low)":
+        destinations.map((item) => item.properties.sort(compareH2L));
+        setSortedData(destinations);
+        break;
+      case "Price (low to high)":
+        destinations.map((item) => item.properties.sort(compareL2H));
+        setSortedData(destinations);
+        break;
+
+      default:
+        break;
+    }
+  };
 
   return (
     <View style={styles.container}>
       {/* Header Componenet */}
       <View style={styles.headerContainer}>
-        <Pressable style={styles.headerItem}>
+        <Pressable
+          style={styles.headerItem}
+          onPress={() => setSortModalVisible(!sortModalVisible)}
+        >
           <Ionicons
             name="swap-vertical-outline"
             size={20}
@@ -30,7 +74,10 @@ export default function Destinations() {
           <Text style={styles.headerText}>Sort</Text>
         </Pressable>
 
-        <Pressable style={styles.headerItem}>
+        <Pressable
+          style={styles.headerItem}
+          onPress={() => router.push("screens/filter-screen")}
+        >
           <Ionicons name="options-outline" size={20} color={Colors.black} />
           <Text style={styles.headerText}>Filter</Text>
         </Pressable>
@@ -45,7 +92,7 @@ export default function Destinations() {
         </Pressable>
       </View>
 
-      {/* Back Button */}
+      {/* Back Floating Tile Button */}
       <Pressable style={styles.backBtnTile} onPress={() => router.back()}>
         <Ionicons name="arrow-back" size={24} color={Colors.black} />
         <Text style={styles.btnText}>
@@ -58,8 +105,9 @@ export default function Destinations() {
         showsVerticalScrollIndicator={false}
         style={styles.secContainer}
       >
-        {Destination.filter((item) => item.place === params.destination).map(
-          (item) =>
+        {sortedData
+          ?.filter((item) => item.place === params.destination)
+          .map((item) =>
             item.properties.map((property, index) => (
               <DestinationItem
                 key={index}
@@ -71,8 +119,74 @@ export default function Destinations() {
                 availablerooms={property.rooms}
               />
             ))
-        )}
+          )}
       </ScrollView>
+
+      <BottomModal
+        visible={sortModalVisible}
+        swipeThreshold={200}
+        swipeDirection={["up", "down"]}
+        modalTitle={
+          <ModalTitle
+            title="Sort by"
+            textStyle={defaultStyles.modalTitleText}
+            style={defaultStyles.modalTitle}
+          ></ModalTitle>
+        }
+        footer={
+          <ModalFooter>
+            <ModalButton
+              text="Apply"
+              textStyle={defaultStyles.modalText}
+              style={defaultStyles.modal}
+              onPress={() => applySort(selectedfilter!)}
+            />
+          </ModalFooter>
+        }
+        modalAnimation={
+          new SlideAnimation({
+            slideFrom: "bottom",
+          })
+        }
+        onTouchOutside={() => setSortModalVisible(!sortModalVisible)}
+      >
+        <ModalContent>
+          <View style={{ flexDirection: "row", marginTop: 10 }}>
+            <View style={defaultStyles.sortTextContaier}>
+              <Text style={defaultStyles.sortTitleText}>Sort</Text>
+            </View>
+
+            <View style={{ flex: 3, margin: 10 }}>
+              {Sort.map((item, index) => (
+                <Pressable
+                  key={index}
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginVertical: 10,
+                  }}
+                  onPress={() => setSelectedFilter(item.sort)}
+                >
+                  <FontAwesome
+                    name={
+                      selectedfilter?.includes(item.sort)
+                        ? "circle"
+                        : "circle-thin"
+                    }
+                    size={18}
+                    color={
+                      selectedfilter?.includes(item.sort)
+                        ? Colors.button
+                        : Colors.black
+                    }
+                  />
+                  <Text style={defaultStyles.sortText}>{item.sort}</Text>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+        </ModalContent>
+      </BottomModal>
     </View>
   );
 }
@@ -128,6 +242,6 @@ const styles = StyleSheet.create({
     fontFamily: "montM",
     fontSize: 14,
     color: Colors.black,
-    flex: 1
-  }
+    flex: 1,
+  },
 });

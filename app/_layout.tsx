@@ -1,11 +1,14 @@
 import React, { useEffect } from "react";
-import { SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack, useRouter } from "expo-router";
 import { useFonts } from "expo-font";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ModalPortal } from "react-native-modals";
 import { DateProvider } from "@/context/DateContext";
 import Colors from "@/constants/Colors";
+import { View, Pressable, Text, StyleSheet } from "react-native";
+import { FontAwesome, FontAwesome6 } from "@expo/vector-icons";
+import { defaultStyles } from "@/constants/Styles";
 
 export { ErrorBoundary } from "expo-router";
 export const unstable_settings = { initialRouteName: "(tabs)" };
@@ -42,6 +45,7 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+  const router = useRouter();
   return (
     <Stack
       screenOptions={{
@@ -59,7 +63,36 @@ function RootLayoutNav() {
           headerLeft: () => null,
           headerBackVisible: false,
           title: "",
-          headerStyle: { backgroundColor: Colors.primary,  },
+          headerStyle: { backgroundColor: Colors.primary },
+        }}
+      />
+      <Stack.Screen
+        name="screens/filter-screen"
+        options={{
+          headerShown: true,
+          headerBackVisible: false,
+          headerLeft: () => {
+            return (
+              <Pressable onPress={() => router.back()}>
+                <FontAwesome6 name="arrow-left" size={24} color="white" />
+              </Pressable>
+            )
+          },
+          headerRight: () => {
+            return (
+              <Pressable>
+                <Text style={defaultStyles.headerTitle}>Reset</Text>
+              </Pressable>
+            );
+          },
+          title: "Set your filters",
+          headerBackTitleStyle: { fontFamily: "montSB", fontSize: 14 },
+          headerTitle(props) {
+            return (
+              <Text style={defaultStyles.headerTitle}>{props.children}</Text>
+            );
+          },
+          headerStyle: defaultStyles.headerStyle,
         }}
       />
     </Stack>

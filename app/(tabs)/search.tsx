@@ -38,9 +38,9 @@ export default function SearchScreen() {
   const [pets, setPets] = useState(false);
 
   const params = useLocalSearchParams();
-  
+
   const searchClick = () => {
-    if(!params.query || !selectedDates) {
+    if (!params.query || !selectedDates) {
       Alert.alert(
         "Invalid Details",
         "Please enter all the details",
@@ -48,9 +48,9 @@ export default function SearchScreen() {
           {
             text: "Cancel",
             onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
+            style: "cancel",
           },
-          { text: "OK", onPress: () => console.log("OK Pressed") }
+          { text: "OK", onPress: () => console.log("OK Pressed") },
         ],
         { cancelable: false }
       );
@@ -59,18 +59,18 @@ export default function SearchScreen() {
 
     if (params.query && selectedDates) {
       router.push({
-        pathname: 'screens/destinations',
-        params: { 
+        pathname: "screens/destinations",
+        params: {
           destination: params.query,
           selectedDates: JSON.stringify(selectedDates),
           room: room,
           adult: adult,
           children: children,
-          pets: pets.toString()
-        }
-      })
+          pets: pets.toString(),
+        },
+      });
     }
-  }
+  };
 
   return (
     <>
@@ -158,8 +158,8 @@ export default function SearchScreen() {
           <ModalFooter>
             <ModalButton
               text="Apply"
-              textStyle={styles.modalText}
-              style={styles.modal}
+              textStyle={defaultStyles.modalText}
+              style={defaultStyles.modal}
               onPress={() => setGuestModalVisible(!guestModalVisible)}
             />
           </ModalFooter>
@@ -167,12 +167,8 @@ export default function SearchScreen() {
         modalTitle={
           <ModalTitle
             title="Select rooms and guests"
-            textStyle={{ fontFamily: "montSB", textAlign: "left" }}
-            style={{
-              marginHorizontal: 0,
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-            }}
+            textStyle={defaultStyles.modalTitleText}
+            style={defaultStyles.modalTitle}
           ></ModalTitle>
         }
         modalAnimation={
@@ -180,8 +176,6 @@ export default function SearchScreen() {
             slideFrom: "bottom",
           })
         }
-        // onBackdropPress={() => setModalVisible(!modalVisible)}
-        // onHardwareBackPress={() => setModalVisible(!modalVisible)}
         onTouchOutside={() => setGuestModalVisible(!guestModalVisible)}
       >
         <ModalContent>
@@ -204,14 +198,7 @@ export default function SearchScreen() {
             increase={() => setChildren(Math.max(1, children + 1))}
             decrease={() => setChildren(Math.max(1, children - 1))}
           />
-          <View
-            style={{
-              paddingTop: 25,
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
+          <View style={styles.pet}>
             <Text>Traveling with pets?</Text>
             <Switch
               trackColor={{ false: "#767577", true: "#81b0ff" }}
@@ -259,20 +246,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  modal: {
-    backgroundColor: Colors.button,
-    marginBottom: 15,
-    marginHorizontal: 10,
-    height: 50,
-    borderRadius: 4,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  modalText: {
-    fontFamily: "montM",
-    fontSize: 13,
-    color: Colors.white,
-  },
   discountHeaderContainer: {
     marginLeft: 15,
     marginTop: 20,
@@ -300,5 +273,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontFamily: "montSB",
     fontSize: 15,
+  },
+  pet: {
+    paddingTop: 25,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 });
