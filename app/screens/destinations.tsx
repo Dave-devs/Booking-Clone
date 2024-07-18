@@ -19,8 +19,10 @@ import {
 } from "react-native-modals";
 import { Sort } from "@/utils/data/Sort";
 import { defaultStyles } from "@/constants/Styles";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Destinations() {
+  const insets = useSafeAreaInsets();
   const router = useRouter();
   const params = useLocalSearchParams();
   const parsedDates = JSON.parse(params.selectedDates as string);
@@ -59,7 +61,7 @@ export default function Destinations() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {paddingBottom: insets.bottom}]}>
       {/* Header Componenet */}
       <View style={styles.headerContainer}>
         <Pressable
@@ -82,7 +84,17 @@ export default function Destinations() {
           <Text style={styles.headerText}>Filter</Text>
         </Pressable>
 
-        <Pressable style={styles.headerItem}>
+        <Pressable
+          style={styles.headerItem}
+          onPress={() => router.push({
+            pathname: "screens/map-screen",
+            params: {
+              destinations: JSON.stringify(destinations as typeof Destination),
+              destination: params.destination,
+              date: params.selectedDates,
+            }
+          })} 
+        >
           <MaterialCommunityIcons
             name="map-search-outline"
             size={20}
@@ -117,6 +129,9 @@ export default function Destinations() {
                 adults={params.children as string}
                 dates={params.selectedDates as string}
                 availablerooms={property.rooms}
+                onTap={
+                  () => router.push('screens/destination-details-screen')
+                }
               />
             ))
           )}

@@ -7,7 +7,7 @@ import { ModalPortal } from "react-native-modals";
 import { DateProvider } from "@/context/DateContext";
 import Colors from "@/constants/Colors";
 import { View, Pressable, Text, StyleSheet } from "react-native";
-import { FontAwesome, FontAwesome6 } from "@expo/vector-icons";
+import { AntDesign, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import { defaultStyles } from "@/constants/Styles";
 
 export { ErrorBoundary } from "expo-router";
@@ -74,9 +74,9 @@ function RootLayoutNav() {
           headerLeft: () => {
             return (
               <Pressable onPress={() => router.back()}>
-                <FontAwesome6 name="arrow-left" size={24} color="white" />
+                <AntDesign name="arrowleft" size={24} color={Colors.white} />
               </Pressable>
-            )
+            );
           },
           headerRight: () => {
             return (
@@ -93,6 +93,23 @@ function RootLayoutNav() {
             );
           },
           headerStyle: defaultStyles.headerStyle,
+        }}
+      />
+      <Stack.Screen name="screens/map-screen" />
+      <Stack.Screen
+        name="screens/destination-details-screen"
+        options={{
+          headerShown: true,
+          headerTitle: "",
+          headerStyle: defaultStyles.headerStyle,
+          headerBackVisible: false,
+          headerLeft: () => {
+            return (
+              <Pressable onPress={() => router.back()}>
+                <AntDesign name="arrowleft" size={24} color={Colors.white} />
+              </Pressable>
+            );
+          },
         }}
       />
     </Stack>

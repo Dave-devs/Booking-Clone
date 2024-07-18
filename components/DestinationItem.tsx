@@ -18,20 +18,21 @@ type Props = {
   adults: any;
   dates: any;
   availablerooms: any;
+  onTap: () => void;
 };
 
 export default function DestinationItem({
-  key,
   rooms,
   children,
   property,
   adults,
   dates,
   availablerooms,
+  onTap,
 }: Props) {
   const { width, height } = useWindowDimensions();
   return (
-    <View style={styles.conatiner} key={key}>
+    <Pressable key={property.id} style={styles.conatiner} onPress={onTap}>
       {/* Image */}
       <Image
         source={{ uri: property.image }}
@@ -90,7 +91,7 @@ export default function DestinationItem({
           </Text>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 }
 

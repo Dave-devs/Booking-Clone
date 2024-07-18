@@ -16,6 +16,7 @@ import * as Location from "expo-location";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import SearchResult from "@/components/SearchResult";
 import { Destination } from "@/utils/data/Destinations";
+import { StatusBar } from 'expo-status-bar';
 
 const PlaceSearch = () => {
   const router = useRouter();
@@ -37,9 +38,6 @@ const PlaceSearch = () => {
           style={styles.textinput}
           numberOfLines={1}
         />
-        {/* <Pressable>
-          <Feather name="search" size={20} color={Colors.black} />
-        </Pressable> */}
       </View>
       {/* Search Result */}
       <SearchResult
@@ -47,6 +45,7 @@ const PlaceSearch = () => {
         query={searchInput}
         setQuery={setSearchInput}
       />
+      <StatusBar style='dark' />
     </KeyboardAvoidingView>
   );
 };
