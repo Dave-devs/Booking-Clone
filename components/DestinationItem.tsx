@@ -87,7 +87,7 @@ export default function DestinationItem({
             </Text>
           </View>
           <Text style={styles.tax}>
-            +US$ {property.newPrice / 2} taxes and fees
+            +US$ {property.newPrice / 10} taxes and fees
           </Text>
         </View>
       </View>

@@ -7,7 +7,7 @@ import { ModalPortal } from "react-native-modals";
 import { DateProvider } from "@/context/DateContext";
 import Colors from "@/constants/Colors";
 import { View, Pressable, Text, StyleSheet } from "react-native";
-import { AntDesign, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
+import { AntDesign, Entypo, FontAwesome, FontAwesome6, MaterialIcons } from "@expo/vector-icons";
 import { defaultStyles } from "@/constants/Styles";
 
 export { ErrorBoundary } from "expo-router";
@@ -51,7 +51,8 @@ function RootLayoutNav() {
       screenOptions={{
         headerShown: false,
       }}
-    >
+    > 
+      {/* <Stack.Screen name="screens/image" /> */}
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="(auth)" />
       <Stack.Screen name="screens/place-search" />
@@ -109,6 +110,14 @@ function RootLayoutNav() {
                 <AntDesign name="arrowleft" size={24} color={Colors.white} />
               </Pressable>
             );
+          },
+          headerRight: () => {
+            return (
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 25 }}>
+                <MaterialIcons name="favorite-outline" size={20} color={Colors.white} />
+                <Entypo name="share" size={20} color={Colors.white} />
+              </View>
+            )
           },
         }}
       />

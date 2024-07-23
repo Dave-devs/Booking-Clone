@@ -26,6 +26,7 @@ import GuestItem from "@/components/GuestItem";
 import { useDateContext } from "@/context/DateContext";
 import DiscountItem from "@/components/DiscountItem";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import CustomButton from "../../components/CustomButton";
 
 export default function SearchScreen() {
   const router = useRouter();
@@ -226,11 +227,6 @@ const styles = StyleSheet.create({
     color: Colors.black,
     flex: 1,
   },
-  btnText: {
-    fontFamily: "montM",
-    fontSize: 14,
-    color: Colors.white,
-  },
   textinput: {
     flexDirection: "row",
     alignItems: "center",
@@ -238,6 +234,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
     borderColor: Colors.yellow,
     padding: 14,
+  },
+  btnText: {
+    fontFamily: "montM",
+    fontSize: 14,
+    color: Colors.white,
   },
   btn: {
     backgroundColor: Colors.button,

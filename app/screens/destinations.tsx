@@ -61,7 +61,7 @@ export default function Destinations() {
   };
 
   return (
-    <View style={[styles.container, {paddingBottom: insets.bottom}]}>
+    <View style={[styles.container, { paddingBottom: insets.bottom }]}>
       {/* Header Componenet */}
       <View style={styles.headerContainer}>
         <Pressable
@@ -86,14 +86,18 @@ export default function Destinations() {
 
         <Pressable
           style={styles.headerItem}
-          onPress={() => router.push({
-            pathname: "screens/map-screen",
-            params: {
-              destinations: JSON.stringify(destinations as typeof Destination),
-              destination: params.destination,
-              date: params.selectedDates,
-            }
-          })} 
+          onPress={() =>
+            router.push({
+              pathname: "screens/map-screen",
+              params: {
+                destinations: JSON.stringify(
+                  destinations as typeof Destination
+                ),
+                destination: params.destination,
+                date: params.selectedDates,
+              },
+            })
+          }
         >
           <MaterialCommunityIcons
             name="map-search-outline"
@@ -113,6 +117,8 @@ export default function Destinations() {
         </Text>
       </Pressable>
 
+      
+      {/* Destinations Tile */}
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.secContainer}
@@ -130,7 +136,23 @@ export default function Destinations() {
                 dates={params.selectedDates as string}
                 availablerooms={property.rooms}
                 onTap={
-                  () => router.push('screens/destination-details-screen')
+                  () => router.push({
+                    pathname: "screens/destination-details-screen",
+                    params: {
+                      name: property.name,
+                      rating: property.rating,
+                      oldPrice: property.oldPrice,
+                      newPrice: property.newPrice,
+                      photos: JSON.stringify(property.photos),
+                      rooms: JSON.stringify(property.rooms),
+                      adults: params.adults,
+                      children: params.children,
+                      animals: params.pets,
+                      checkin: parsedDates.startDate,
+                      checkout: parsedDates.endDate,
+                      room: params.room
+                    },
+                  })
                 }
               />
             ))
