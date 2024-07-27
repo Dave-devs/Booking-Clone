@@ -9,6 +9,7 @@ import Colors from "@/constants/Colors";
 import { View, Pressable, Text, StyleSheet } from "react-native";
 import { AntDesign, Entypo, FontAwesome, FontAwesome6, MaterialIcons } from "@expo/vector-icons";
 import { defaultStyles } from "@/constants/Styles";
+import { StatusBar } from "expo-status-bar";
 
 export { ErrorBoundary } from "expo-router";
 export const unstable_settings = { initialRouteName: "(tabs)" };
@@ -37,6 +38,7 @@ export default function RootLayout() {
       <SafeAreaProvider>
         <DateProvider>
           <RootLayoutNav />
+          <StatusBar />
           <ModalPortal />
         </DateProvider>
       </SafeAreaProvider>
