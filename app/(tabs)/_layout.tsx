@@ -10,11 +10,14 @@ export default function _layout() {
       screenOptions={{
         tabBarActiveTintColor: Colors.button,
         tabBarInactiveTintColor: Colors.black,
-        headerShown: false,
+        headerShown: true,
         tabBarShowLabel: true,
         tabBarLabelStyle: {
           fontFamily: 'montM',
           fontSize: 10,
+        },
+        headerStyle: {
+          backgroundColor: Colors.primary,
         }
       }}
     >
@@ -36,8 +39,8 @@ export default function _layout() {
           },
           headerRight: () => (
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, gap: 18}}>
-              <Feather name="message-circle" size={28} color={Colors.white} />
-              <Ionicons name="notifications-outline" size={28} color={Colors.white} />
+              <Feather name="message-circle" size={24} color={Colors.white} />
+              <Ionicons name="notifications-outline" size={24} color={Colors.white} />
             </View>
           ),
           tabBarIcon: ({ size, color }) => (
@@ -56,13 +59,34 @@ export default function _layout() {
         }}
       />
       <Tabs.Screen
-        name="bookings"
+        name="(bookings)"
         options={{
+          headerShown: true,
+          headerTitle: "Trips",
+          headerTitleStyle: { color: Colors.white },
+          headerShadowVisible: false,
           tabBarIcon: ({ size, color }) => (
             <Ionicons name="bag-outline" size={size} color={color} />
           ),
-          tabBarLabel: 'Bookings'
+          tabBarLabel: 'Bookings',
+          headerLeft: () => (
+            <View style={{ marginLeft: 15 }}>
+              <AntDesign name="arrowleft" size={24} color={Colors.white} />
+            </View>
+          ),
+          headerRight: () => (
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, gap: 18 }}>
+              <SimpleLineIcons
+                name="question"
+                size={24}
+                color={Colors.white}
+              />
+              <Ionicons name="add" size={24} color={Colors.white} />
+            </View>
+          ),
+          
         }}
+        
       />
       <Tabs.Screen
         name="profile"

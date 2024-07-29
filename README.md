@@ -1,3 +1,12 @@
+Disclaimer
+
+All images used in this application are for illustrative purposes only. We do not own the rights to these images. The rights to the images belong to their respective owners. If you are the owner of any image and you believe it is used without your permission, please contact us, and we will remove it promptly.
+
+Image Credits goes to:
+
+- [Freepik](https://www.freepik.com/)
+- [FlatIcons](https://www.flaticon.com/)
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
