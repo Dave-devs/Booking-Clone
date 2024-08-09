@@ -5,6 +5,7 @@ import {
   useWindowDimensions,
   Pressable,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import React from "react";
 import { EvilIcons, Ionicons, MaterialIcons } from "@expo/vector-icons";
@@ -18,7 +19,9 @@ type Props = {
   adults: any;
   dates: any;
   availablerooms: any;
-  onTap: () => void;
+  onTap?: () => void;
+  bookmark: () => void;
+  bookmarkTap: boolean;
 };
 
 export default function DestinationItem({
@@ -29,6 +32,8 @@ export default function DestinationItem({
   dates,
   availablerooms,
   onTap,
+  bookmark,
+  bookmarkTap,
 }: Props) {
   const { width, height } = useWindowDimensions();
   return (
@@ -42,7 +47,13 @@ export default function DestinationItem({
         {/* Title & Heart Icon */}
         <View style={styles.titleBox}>
           <Text style={styles.title}>{property.name}</Text>
-          <Ionicons name="heart-outline" size={20} color="black" />
+          <TouchableOpacity onPress={bookmark}>
+            {bookmarkTap === true ? (
+              <Ionicons name="heart" size={20} color="red" />
+            ) : (
+              <Ionicons name="heart-outline" size={20} color="black" />
+            )}
+          </TouchableOpacity>
         </View>
         {/* Star Rating Row */}
         <View style={styles.ratingBox}>
@@ -62,7 +73,9 @@ export default function DestinationItem({
           <View style={styles.reviewCount}>
             <Text style={styles.reviewText}>{property.rating}</Text>
           </View>
-          <Text style={styles.reviews}>Good • {property.ratingCount} reviews</Text>
+          <Text style={styles.reviews}>
+            Good • {property.ratingCount} reviews
+          </Text>
         </View>
         {/* Location */}
         <View style={styles.addressBox}>
@@ -102,7 +115,7 @@ const styles = StyleSheet.create({
     gap: 10,
     paddingVertical: 10,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'grey',
+    borderBottomColor: "grey",
   },
   image: {
     borderRadius: 8,
@@ -205,7 +218,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     gap: 5,
     paddingTop: 5,
-    width: 190
+    width: 190,
   },
   reviewCount: {
     backgroundColor: Colors.button,

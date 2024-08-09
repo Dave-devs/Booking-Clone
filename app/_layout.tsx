@@ -16,6 +16,8 @@ import {
 } from "@expo/vector-icons";
 import { defaultStyles } from "@/constants/Styles";
 import { StatusBar } from "expo-status-bar";
+import { Provider } from "react-redux";
+import { store } from "@/store";
 
 export { ErrorBoundary } from "expo-router";
 export const unstable_settings = { initialRouteName: "(tabs)" };
@@ -40,15 +42,17 @@ export default function RootLayout() {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider>
-        <DateProvider>
-          <RootLayoutNav />
-          <StatusBar />
-          <ModalPortal />
-        </DateProvider>
-      </SafeAreaProvider>
-    </GestureHandlerRootView>
+    <Provider store={store}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaProvider>
+          <DateProvider>
+            <RootLayoutNav />
+            <StatusBar />
+            <ModalPortal />
+          </DateProvider>
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
+    </Provider>
   );
 }
 

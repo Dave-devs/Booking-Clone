@@ -20,6 +20,9 @@ import {
 import { Sort } from "@/utils/data/Sort";
 import { defaultStyles } from "@/constants/Styles";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useAppDispatch, useAppSelector } from "@/hooks/hook";
+import { RootState } from "@/store";
+import { addToFavourite, removeFromFavourite } from "@/slices/bookingSlice";
 
 export default function Destinations() {
   const insets = useSafeAreaInsets();
@@ -60,6 +63,16 @@ export default function Destinations() {
     }
   };
 
+
+  const dispatch = useAppDispatch();
+
+  const [save, setSave] = useState(false)
+  const handleAddBookmark = (item: any[]) => {
+    {/*OnClick affected all Icon color */}
+    setSave(!save);
+    dispatch(addToFavourite(item));
+  };
+
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom }]}>
       {/* Header Componenet */}
@@ -78,7 +91,7 @@ export default function Destinations() {
 
         <Pressable
           style={styles.headerItem}
-          onPress={() => router.push("screens/filter-screen")}
+          onPress={() => router.push("/screens/filter-screen")}
         >
           <Ionicons name="options-outline" size={20} color={Colors.black} />
           <Text style={styles.headerText}>Filter</Text>
@@ -88,7 +101,7 @@ export default function Destinations() {
           style={styles.headerItem}
           onPress={() =>
             router.push({
-              pathname: "screens/map-screen",
+              pathname: "/screens/map-screen",
               params: {
                 destinations: JSON.stringify(
                   destinations as typeof Destination
@@ -117,7 +130,6 @@ export default function Destinations() {
         </Text>
       </Pressable>
 
-      
       {/* Destinations Tile */}
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -135,9 +147,9 @@ export default function Destinations() {
                 adults={params.children as string}
                 dates={params.selectedDates as string}
                 availablerooms={property.rooms}
-                onTap={
-                  () => router.push({
-                    pathname: "screens/destination-details-screen",
+                onTap={() =>
+                  router.push({
+                    pathname: "/screens/destination-details-screen",
                     params: {
                       name: property.name,
                       rating: property.rating,
@@ -150,10 +162,12 @@ export default function Destinations() {
                       animals: params.pets,
                       checkin: parsedDates.startDate,
                       checkout: parsedDates.endDate,
-                      room: params.room
+                      room: params.room,
                     },
                   })
                 }
+                bookmarkTap={save}
+                bookmark={() => handleAddBookmark({...item.properties})}
               />
             ))
           )}

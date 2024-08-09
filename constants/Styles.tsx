@@ -54,8 +54,14 @@ export const defaultStyles = StyleSheet.create({
     fontSize: 14,
   },
   sortText: {
-      marginLeft: 10,
-      fontFamily: "montM",
-      fontSize: 12,
-  }
+    marginLeft: 10,
+    fontFamily: "montM",
+    fontSize: 12,
+  },
+  separator: {
+    borderBottomColor: "#dee2e6",
+    borderBottomWidth: 1,
+    marginVertical: 10,
+    marginHorizontal: 15,
+  },
 });

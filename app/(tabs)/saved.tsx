@@ -1,10 +1,25 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { SimpleLineIcons, Ionicons, AntDesign } from "@expo/vector-icons";
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 import Colors from "@/constants/Colors";
+import { FlatList } from "react-native-gesture-handler";
+import { RootState } from "@/store";
+import { useAppSelector, useAppDispatch } from "@/hooks/hook";
+import { removeFromFavourite } from "@/slices/bookingSlice";
+import DestinationItem from "@/components/DestinationItem";
 
 export default function SavedScreen() {
+  const booking = useAppSelector((state: RootState) => state.booking);
+  console.log('Saved Hotel', booking.hotel)
+  const dispatch = useAppDispatch();
+
+  const [save, setSave] = useState(false)
+  const handleRemoveBookmark = (item: any[]) => {
+    setSave(!save);
+    dispatch(removeFromFavourite(item));
+  };
+
   return (
     <View>
       <Stack.Screen

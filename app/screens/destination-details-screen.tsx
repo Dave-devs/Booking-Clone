@@ -114,8 +114,9 @@ export default function DestinationDetailsScreen() {
       {/* Rooms, Adults & Children */}
       <View style={styles.rooms}>
         <Text>Rooms and guests</Text>
-        <Text style={styles.date}>{`${room ? room : 0} rooms, ${adults ? adults : 0
-          } adults, ${children ? children : 0} children`}</Text>
+        <Text style={styles.date}>{`${room ? room : 0} rooms, ${
+          adults ? adults : 0
+        } adults, ${children ? children : 0} children`}</Text>
       </View>
       {/* Percent Off */}
       <View style={styles.percentBox}>
@@ -141,14 +142,7 @@ export default function DestinationDetailsScreen() {
         </Text>
       </View>
       {/* Separator */}
-      <View
-        style={{
-          borderBottomColor: "#dee2e6",
-          borderBottomWidth: 1,
-          marginVertical: 10,
-          marginHorizontal: 15,
-        }}
-      />
+      <View style={defaultStyles.separator} />
 
       {/* Floating Button */}
       {/* <View style={[styles.btnContaier, { width: width }]}>
